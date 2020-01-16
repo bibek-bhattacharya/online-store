@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-#from dotenv import load_dotenv
 from app.models.shared import db
 
 def create_app():
@@ -8,7 +7,6 @@ def create_app():
     # Construct the application
     app = Flask(__name__, instance_relative_config=False)
     
-    #load_dotenv()
     app.config.from_object('config.Config')
     db.init_app(app)
 
