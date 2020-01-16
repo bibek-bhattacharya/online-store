@@ -6,8 +6,7 @@ class Product(db.Model):
     name = db.Column(db.String(100), nullable=False)
     price = db.Column(db.String(10), nullable=False)
 
-def __init__(self, id, name, price):
-    self.id = id
+def __init__(self, name, price):
     self.name = name
     self.price = price
 

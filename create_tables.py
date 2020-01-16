@@ -10,8 +10,7 @@ ctx.pop()
 exit()
 
 
-
-#SQL
+#SQL - Initial state
 # INSERT INTO products (name, price)
 # VALUES
 # ('Lavender heart', '9.25'),

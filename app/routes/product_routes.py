@@ -1,5 +1,5 @@
 
-from flask import request, jsonify, Blueprint
+from flask import request, abort, jsonify, Blueprint
 from app.models.shared import db
 from app.models.product import Product, product_schema, products_schema
 
@@ -8,11 +8,12 @@ product_api = Blueprint('product_api', __name__)
 # Create a product
 @product_api.route('/product', methods=['POST'])
 def add_product():
-    id = request.json['id']
-    name = request.json['name']
-    price = request.json['price']
 
-    new_product = Product(id=id, name=name, price=price)
+    data = request.get_json()
+    name = data.get('name', '')
+    price = data.get('price', '')
+
+    new_product = Product(name=name, price=price)
     db.session.add(new_product)
     db.session.commit()
 
@@ -23,8 +24,18 @@ def add_product():
 def update_product(id):
     
     product_to_update = Product.query.get(id)
-    product_to_update.name = request.json['name']
-    product_to_update.price = request.json['price']
+    if product_to_update is None:
+        abort(404, description="Resource not found")
+    
+    data = request.get_json()
+    name = data.get('name', '')
+    price = data.get('price', '')
+
+    if name:
+        product_to_update.name = name
+    
+    if price:    
+        product_to_update.price = price
 
     db.session.commit()
 
@@ -35,6 +46,9 @@ def update_product(id):
 def delete_product(id):
     
     product_to_delete = Product.query.get(id)
+    if product_to_delete is None:
+        abort(404, description="Resource not found")
+
     db.session.delete(product_to_delete)
     db.session.commit()
 
@@ -51,4 +65,7 @@ def get_products():
 @product_api.route('/product/<id>', methods=['GET'])
 def get_product(id):
     product = Product.query.get(id)
+    
+    if product is None:
+        abort(404, description="Resource not found")
     return product_schema.jsonify(product)
