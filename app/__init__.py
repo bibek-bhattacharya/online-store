@@ -12,8 +12,8 @@ def create_app():
 
     # Register schemas
     from app.models.product import Product
-    # Register routes
+    # Register routes for API v1
     from app.routes.product_routes import product_api
-    app.register_blueprint(product_api)
+    app.register_blueprint(product_api, url_prefix='/v1')
 
     return app

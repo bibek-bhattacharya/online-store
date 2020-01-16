@@ -8,3 +8,14 @@ ctx.push()
 db.create_all()
 ctx.pop()
 exit()
+
+
+
+#SQL
+# INSERT INTO products (name, price)
+# VALUES
+# ('Lavender heart', '9.25'),
+# ('Personalised cufflinks', '45.00'),
+# ('Kids T-shirt', '19.95');
+
+# select * from products;
