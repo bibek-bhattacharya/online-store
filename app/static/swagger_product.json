@@ -1,0 +1,232 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "Online Store",
+      "version": "1.0.0",
+      "title": "Product API"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000/v1"
+      }
+    ],
+	"tags": [
+      {
+        "name": "Product",
+        "description": "API for query/add/update/delete on a product"
+      },
+	  {
+        "name": "Products",
+        "description": "API for querying multiple products"
+      }
+    ],
+    "paths": {
+      "/products": {
+        "get": {
+          "tags": [
+            "Products"
+          ],
+          "summary": "Returns products",
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/products"
+              }
+            }
+          }
+        }
+      },
+	  "/product": {
+		"post": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Create a new product",
+          "requestBody": {
+            "description": "Product Post Object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/productPostBody"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Failed. Bad post data."
+            }
+          }
+        }	  
+	  },
+      "/product/{id}": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the product to match",
+            "type": "string"
+          }
+        ],
+        "get": {
+          "tags": [
+            "Product"
+          ],
+          "summary": "Get product with given ID",
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "Product id",
+              "schema": {
+                "$ref": "#/components/schemas/id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/product"
+              }
+            },
+            "404": {
+              "description": "Failed. Product not found."
+            }
+          }
+        },
+        "put": {
+          "summary": "edit a product by ID",
+          "tags": [
+            "Product"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "Product id",
+              "schema": {
+                "$ref": "#/components/schemas/id"
+              }
+            }
+          ],
+          "requestBody": {
+            "description": "Product object",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/product"
+                }
+              }
+            }
+          },
+          "produces": [
+            "application/json"
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/product"
+              }
+            },
+            "400": {
+              "description": "Failed. Bad post data."
+            },
+            "404": {
+              "description": "Failed. Product not found."
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete Product by ID",
+          "tags": [
+            "Product"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "description": "Product Id",
+              "schema": {
+                "$ref": "#/components/schemas/id"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/product"
+              }
+            },
+            "404": {
+              "description": "Failed. Product not found."
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+	    "id": {
+          "properties": {
+            "uuid": {
+              "type": "number"
+            }
+          }
+        },
+        "productPostBody": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "price": {
+              "type": "string",
+              "format": "number"
+            }
+          }
+        },
+        "product": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number"
+            },
+            "name": {
+              "type": "string"
+            },
+            "price": {
+              "type": "string",
+              "format": "number"
+            }
+          }
+        },
+        "products": {
+          "type": "object",
+          "properties": {
+            "product": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/components/schemas/product"
+              }
+            }
+          }
+        }
+      }
+    }
+  }

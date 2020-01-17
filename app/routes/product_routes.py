@@ -13,6 +13,12 @@ def add_product():
     name = data.get('name', '')
     price = data.get('price', '')
 
+    if not name:
+        abort(400, description="Missing name")
+    
+    if not price:    
+        abort(400, description="Missing price")
+
     new_product = Product(name=name, price=price)
     db.session.add(new_product)
     db.session.commit()
@@ -31,6 +37,9 @@ def update_product(id):
     name = data.get('name', '')
     price = data.get('price', '')
 
+    if not name and not price:
+        abort(400, description="Missing name or price to update")
+        
     if name:
         product_to_update.name = name
     
