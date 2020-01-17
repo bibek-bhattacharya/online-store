@@ -21,6 +21,7 @@ URL base: http://localhost:5000/v1
 Swagger/OpenAPI Documentation
 http://localhost:5000/v1/swagger/
 
-# Docker - Not tested as environment was not available.
+## Note: Docker - Not tested as environment was not available.
 docker build -t online-store:latest .
+
 docker run -d -p 5000:5000 online-store
