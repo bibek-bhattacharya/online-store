@@ -2,6 +2,7 @@
 from flask import request, abort, jsonify, Blueprint
 from app.models.shared import db
 from app.models.product import Product, product_schema, products_schema
+from app.service.product_post_service import ProductPostService 
 
 product_api = Blueprint('product_api', __name__)
 
@@ -19,11 +20,9 @@ def add_product():
     if not price:    
         abort(400, description="Missing price")
 
-    new_product = Product(name=name, price=price)
-    db.session.add(new_product)
-    db.session.commit()
-
-    return product_schema.jsonify(new_product)
+    service = ProductPostService(data, db.session)
+    service.post()
+    return product_schema.jsonify(service.product)
 
 # Update a product by id
 @product_api.route('/product/<id>', methods=['PUT'])
