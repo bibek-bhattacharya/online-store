@@ -1,6 +1,12 @@
 # Instructions to build and run
 
-Create environment
+Open command prompt at online-store folder level
+
+Install Python virtual environment dependencies
+
+pip install virtualenv
+
+Create Python virtual environment
 
 python -m virtualenv env
 
