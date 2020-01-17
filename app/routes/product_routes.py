@@ -21,8 +21,7 @@ def add_product():
         abort(400, description="Missing price")
 
     service = ProductPostService(data, db.session)
-    service.post()
-    return product_schema.jsonify(service.product)
+    return product_schema.jsonify(service.post())
 
 # Update a product by id
 @product_api.route('/product/<id>', methods=['PUT'])
