@@ -1,16 +1,22 @@
-FROM ubuntu:16.04
+# Build an image starting with the Python 3.8 image.
+FROM python:3.8-alpine
 
-RUN apt-get update -y && \
-    apt-get install -y python-pip python-dev
+# Set the working directory to /code.
+WORKDIR /code
 
-COPY ./requirements.txt /app/requirements.txt
+# Set environment variables used by the flask command.
+ENV FLASK_APP app.py
+ENV FLASK_RUN_HOST 0.0.0.0
 
-WORKDIR /app
+# Install gcc so Python packages such as MarkupSafe and SQLAlchemy can compile speedups.
+RUN apk add --no-cache gcc musl-dev linux-headers
 
+# Copy requirements.txt and install the Python dependencies.
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-COPY . /app
+# Copy the current directory . in the project to the workdir . in the image.
+COPY . .
 
-ENTRYPOINT [ "python" ]
-
-CMD [ "app.py" ]
+# Set the default command for the container to flask run.
+CMD ["flask", "run"]
