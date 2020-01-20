@@ -50,8 +50,8 @@ http://localhost:5000/v1/swagger/
 
 ****************************************************************************
 
-## Note: Docker - Not tested as environment was not available.
+Run as Docker container
 
-docker build -t online-store:latest .
+docker-compose build -t online-store:latest .
 
 docker run -d -p 5000:5000 online-store
