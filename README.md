@@ -32,7 +32,7 @@ pytest -v
 
 ****************************************************************************
 
-##Run REST API service
+Run REST API service
 
 python app.py
 
