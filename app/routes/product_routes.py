@@ -2,7 +2,9 @@
 from flask import request, abort, jsonify, Blueprint
 from app.models.shared import db
 from app.models.product import Product, product_schema, products_schema
-from app.service.product_post_service import ProductPostService 
+from app.service.product_post_service import ProductPostService
+from app.service.product_put_service import ProductPutService
+from app.service.product_delete_service import ProductDeleteService
 
 product_api = Blueprint('product_api', __name__)
 
@@ -10,9 +12,9 @@ product_api = Blueprint('product_api', __name__)
 @product_api.route('/product', methods=['POST'])
 def add_product():
 
-    data = request.get_json()
-    name = data.get('name', '')
-    price = data.get('price', '')
+    req_data = request.get_json()
+    name = req_data.get('name', '')
+    price = req_data.get('price', '')
 
     if not name:
         abort(400, description="Missing name")
@@ -20,59 +22,58 @@ def add_product():
     if not price:    
         abort(400, description="Missing price")
 
-    service = ProductPostService(data, db.session)
-    return product_schema.jsonify(service.post())
+    postService = ProductPostService(req_data, db.session)
+    return product_schema.jsonify(postService.post())
 
 # Update a product by id
 @product_api.route('/product/<id>', methods=['PUT'])
 def update_product(id):
     
     product_to_update = Product.query.get(id)
+
     if product_to_update is None:
         abort(404, description="Resource not found")
     
-    data = request.get_json()
-    name = data.get('name', '')
-    price = data.get('price', '')
+    req_data = request.get_json()
+    name = req_data.get('name', '')
+    price = req_data.get('price', '')
 
     if not name and not price:
         abort(400, description="Missing name or price to update")
-        
-    if name:
-        product_to_update.name = name
-    
-    if price:    
-        product_to_update.price = price
 
-    db.session.commit()
-
-    return product_schema.jsonify(product_to_update)
+    putService = ProductPutService(req_data, product_to_update, db.session)
+    return product_schema.jsonify(putService.put())
 
 # Delete a product by id
 @product_api.route('/product/<id>', methods=['DELETE'])
 def delete_product(id):
     
     product_to_delete = Product.query.get(id)
+    
     if product_to_delete is None:
         abort(404, description="Resource not found")
 
-    db.session.delete(product_to_delete)
-    db.session.commit()
-
-    return product_schema.jsonify(product_to_delete)
-
-# Get all products
-@product_api.route('/products', methods=['GET'])
-def get_products():
-    all_products = Product.query.all()
-    result = products_schema.dump(all_products)
-    return jsonify(result)
+    deleteService = ProductDeleteService(product_to_delete, db.session)
+    return product_schema.jsonify(deleteService.delete())
 
 #Get single product
 @product_api.route('/product/<id>', methods=['GET'])
 def get_product(id):
+    
     product = Product.query.get(id)
     
     if product is None:
         abort(404, description="Resource not found")
+    
     return product_schema.jsonify(product)
+
+# Get all products
+@product_api.route('/products', methods=['GET'])
+def get_products():
+
+    all_products = Product.query.all()
+    result = products_schema.dump(all_products)
+    
+    return products_schema.jsonify(result)
+
+

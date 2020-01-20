@@ -1,6 +1,6 @@
 
 from app.models.shared import db
-from app.models.product import Product, product_schema, products_schema
+from app.models.product import Product, product_schema
 
 class ProductPostService:
 
@@ -9,7 +9,7 @@ class ProductPostService:
         self.db_session = db_session or db.session
 
     def post(self):
-        new_product = Product(name=self.data['name'], price=self.data['price'])
-        self.db_session.add(new_product)
+        product = Product(name=self.data['name'], price=self.data['price'])
+        self.db_session.add(product)
         self.db_session.commit()
-        return new_product
+        return product
