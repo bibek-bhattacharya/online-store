@@ -15,7 +15,7 @@ class ProductSchema(ma.Schema):
     class Meta:
         fields = ('id', 'name', 'price')
 
-# Initialise schema for single objects
+# Initialise schema for single object
 product_schema = ProductSchema()
 # Initialise schema for collections
 products_schema = ProductSchema(many=True)
