@@ -2,6 +2,10 @@
 
 Open command prompt at online-store folder level
 
+To use makefile to run tests (Assumes as installed: python, pip and make)
+
+make
+
 Install Python virtual environment dependencies
 
 pip install virtualenv
