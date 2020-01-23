@@ -52,6 +52,6 @@ http://localhost:5000/v1/swagger/
 
 Run as Docker container
 
-docker-compose build -t online-store:latest .
+docker build -t online-store:latest .
 
 docker run -d -p 5000:5000 online-store
