@@ -1,16 +1,16 @@
 # Instructions to build and run
 
-Open command prompt at online-store folder level
+**Open command prompt at online-store folder level**
 
 ****************************************************************************
 
-To use makefile to run tests (Assumes as installed: python, pip and make)
+**To use makefile to run tests (Assumes as installed: python, pip and make)**
 
 make
 
 ****************************************************************************
 
-Install Python virtual environment dependencies
+**Install Python virtual environment dependencies**
 
 pip install virtualenv
 
@@ -32,25 +32,25 @@ pytest -v
 
 ****************************************************************************
 
-Run REST API service
+**Run REST API service**
 
 python app.py
 
 ****************************************************************************
 
-Postman
+**Postman**
 
 URL base: http://localhost:5000/v1
 
 ****************************************************************************
 
-Swagger/OpenAPI Documentation
+**Swagger/OpenAPI Documentation**
 
 http://localhost:5000/v1/swagger/
 
 ****************************************************************************
 
-Run as Docker container
+**Run as Docker container**
 
 docker build -t online-store:latest .
 
